@@ -16,6 +16,7 @@ import (
 
 	_ "github.com/lib/pq"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
@@ -76,7 +77,10 @@ func formatDateTime(d time.Time) string {
 }
 
 func main() {
-	fmt.Print(templates)
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("error loading .env file")
+	}
 	sqldb, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		log.Fatal(err)
